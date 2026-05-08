@@ -66,6 +66,7 @@ void window_create(AppState *app)
     app->window = gtk_application_window_new(app->gtk_app);
     gtk_window_set_title(GTK_WINDOW(app->window), APP_TITLE);
     gtk_window_set_default_size(GTK_WINDOW(app->window), 320, 160);
+    gtk_window_set_resizable(GTK_WINDOW(app->window), FALSE);
     gtk_window_set_icon_name(GTK_WINDOW(app->window), APP_ICON_NAME);
     g_signal_connect(app->window,
                      "delete-event",
@@ -82,7 +83,7 @@ void window_create(AppState *app)
 
     app->preset_combo = gtk_combo_box_text_new();
     presets = presets_get_all(&count);
-    for (index = 0; index < count; index++) {
+    for (index = 0; index < count; ++index) {
         row_text = g_strdup_printf("%s (%u min)",
                                    presets[index].name,
                                    presets[index].minutes);
@@ -247,6 +248,7 @@ static gboolean s_window_delete_event_cb(GtkWidget *widget,
 {
     (void) event;
     (void) user_data;
+  
     gtk_widget_hide(widget);
 
     return TRUE;
