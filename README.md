@@ -2,8 +2,8 @@ gTeaTime -- A lightweight GTK3 system-tray tea and coffee timer
 ===============================================================
 
 `gTeaTime` (*Tea & Coffee Timer*) is a GTK 3 systray timer for tea and
-coffee presets written in C.  It avoids `GtkStatusIcon`, AppIndicator,
-and `libappindicator`.  The tray integration first tries
+coffee presets written in C.  It avoids `GtkStatusIcon` and
+`libappindicator`.  The tray integration first tries
 `StatusNotifierItem` over D-Bus using GIO, then falls back to the
 `XEmbed` system tray protocol on X11.
 
