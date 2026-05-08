@@ -1,7 +1,7 @@
-GTeaTime -- A lightweight GTK3 system-tray tea and coffee timer
+gTeaTime -- A lightweight GTK3 system-tray tea and coffee timer
 ===============================================================
 
-`GTeaTime` (*Tea & Coffee Timer*) is a GTK 3 systray timer for tea and
+`gTeaTime` (*Tea & Coffee Timer*) is a GTK 3 systray timer for tea and
 coffee presets written in C.  It avoids `GtkStatusIcon`, AppIndicator,
 and `libappindicator`.  The tray integration first tries
 `StatusNotifierItem` over D-Bus using GIO, then falls back to the
@@ -15,7 +15,7 @@ a GTK3-only setup.
 
   - `libgtk-3-dev`
   - `libx11-dev`
-  - `pkgconf` (for the `Makefile`)
+  - `pkgconf` (for `Makefile`)
 
 On Debian-like systems:
 
@@ -40,15 +40,16 @@ installed in `usr/local/bin`.
 
     make PREFIX=/usr/ install
 
-Icons can be installed in any theme, under `scalable/apps` is a good
-place.  There are only three icons:
+Icons can be copied into any theme.  Under `scalable/apps` is a good
+place.  For example: `~/.local/share/icons/my_icon_theme/scalable/apps/`.
+There are only three icons:
 
-  - `gteatime.svg`
-  - `gteatime-on.svg`
-  - `gteatime.off.svg`
+  - `gteatime.svg`  -- program icon
+  - `gteatime-on.svg` -- systray running icon
+  - `gteatime.off.svg` -- systray idle icon
 
-The "on" and "off" icons are for the systray, and maybe it will be
-better to put them in the `status` folder`.
+Although, the "on" and "off" icons are for the systray, and maybe it
+will be better to put them in the `status` folder.
 
 ## Uninstall
 
@@ -83,8 +84,7 @@ No `AppIndicator` API was used.
 The code is written as C99-compliant.
 
 Most editable program constants, including icon names, user-visible
-identity strings, and tray protocol names, are in
-`include/defs.h`.
+identity strings, and tray protocol names, are in `include/defs.h`.
 
 ## Author
 
