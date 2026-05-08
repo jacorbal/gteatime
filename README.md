@@ -19,7 +19,7 @@ a GTK3-only setup.
 
 On Debian-like systems:
 
-    sudo apt install pkg-config libgtk-3-dev libx11-dev
+    sudo apt install pkgconf libgtk-3-dev libx11-dev
 
 ## Build
 
@@ -35,8 +35,9 @@ Installation of the binary and the three needed icons can be done with:
 
     make install
 
-using, of course, the `PREFIX` standard.  By default it will be
-installed in `usr/local/bin`.
+By default it will be installed in `usr/local/bin`, but that can be
+changed using, of course, the `PREFIX` standard.  To install it in
+`/usr/bin`, use:
 
     make PREFIX=/usr/ install
 
@@ -49,7 +50,7 @@ There are only three icons:
   - `gteatime.off.svg` -- systray idle icon
 
 Although, the "on" and "off" icons are for the systray, and maybe it
-will be better to put them in the `status` folder.
+will be better to put them in the directory `scalable/status`.
 
 ## Uninstall
 
