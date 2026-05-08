@@ -20,16 +20,23 @@
 
 /* Options */
 static const TimerPreset timer_presets[] = {
-    { "Green tea",          2, "Low-temperature infusion" },
-    { "White tea",          3, "Delicate low-temperature infusion" },
-    { "French press",       4, "Full immersion coffee" },
-    { "Pu-erh tea",         5, "Earthy fermented tea infusion" },
-    { "Rooibos tea",        6, "Naturally caffeine-free infusion" },
-    { "Chamomile tea",      7, "Gentle floral herbal infusion" },
-    { "Ginger tea",         8, "Warming spicy herbal infusion" },
-    { "Hibiscus tea",       9, "Tart floral herbal infusion" },
-    { "Masala chai",       10, "Slow spiced black tea preparation" },
-    { "Cold brew coffee", 720, "Long cold coffee extraction" },
+    { "Green tea",                2, "Low-temperature infusion" },
+    { "White tea",                3, "Delicate low-temperature infusion" },
+    { "French press",             4, "Full immersion coffee" },
+    { "Pu-erh tea",               5, "Earthy fermented tea infusion" },
+    { "Rooibos tea",              6, "Naturally caffeine-free infusion" },
+    { "Chamomile tea",            7, "Gentle floral herbal infusion" },
+    { "Ginger tea",               8, "Warming spicy herbal infusion" },
+    { "Hibiscus tea",             9, "Tart floral herbal infusion" },
+    { "Masala chai",             10, "Slow spiced black tea preparation" },
+    { "Peppermint strong",       13, "Bold peppermint herbal infusion" },
+    { "Cinnamon bark decoct.",   14, "Sweet spiced bark simmer" },
+    { "Ginger root decoction",   15, "Root simmer for deep extraction" },
+    { "Turmeric decoction",      18, "Long simmered turmeric root brew" },
+    { "Dandelion root decoct.",  23, "Slow roasted root decoction" },
+    { "Mixed roots decoction",   25, "Strong multi-root herbal decoction" },
+    { "Overnight cold mugicha", 480, "Cold-steeped roasted barley tea" },
+    { "Cold brew coffee",       720, "Long cold coffee extraction" },
 };
 
 
