@@ -3,7 +3,8 @@
 # Program: `gteatime`
 # Description: Lightweight GTK3 system-tray tea and coffee timer
 # Author: J. A. Corbal <jacorbal@gmail.com>
-# Last update: Sat May  9 00:00 UTC 2026
+# Last update: Sat May  9 14:18 UTC 2026
+# Version: 1.0.1
 
 OBJ_D = obj
 BIN_D = bin
@@ -137,8 +138,6 @@ help:
 	@echo "  make install          Install binary, icons, and desktop entry"
 	@echo "  make uninstall        Remove binary, icons, and desktop entry"
 	@echo "  make install-bin      Install only the binary"
-	@echo "  make install-icons    Install only the icons"
-	@echo "  make install-desktop  Install only the desktop entry"
 	@echo
 	@echo "  Change installation point by using 'PREFIX' and 'BINDIR':"
 	@echo "      e.g.,   make install PREFIX=/usr"
@@ -146,5 +145,4 @@ help:
 
 
 .PHONY: all clean clean-bin clean-obj help \
-        install-bin install-icons install-desktop uninstall-bin \
-        uninstall-icons uninstall-desktop install uninstall
+        install-bin uninstall-bin install uninstall
