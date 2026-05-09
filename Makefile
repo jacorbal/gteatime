@@ -28,7 +28,7 @@ ICONS = \
 
 # Desktop entry
 DESKTOPDIR ?= $(PREFIX)/share/applications
-DESKTOP_FILE = gteatime.desktop
+DESKTOP_FILE = desktop/gteatime.desktop
 
 # Options
 CC = cc
@@ -107,8 +107,8 @@ install-desktop:
 		echo "Error: Desktop file '$(DESKTOP_FILE)' not found"; \
 		exit 1; \
 	fi
-	@cp -v $(DESKTOP_FILE) $(DSTDIR)$(DESKTOPDIR)/$(DESKTOP_FILE)
-	@chmod -v 0644 $(DSTDIR)$(DESKTOPDIR)/$(DESKTOP_FILE)
+	@cp -v $(DESKTOP_FILE) $(DSTDIR)$(DESKTOPDIR)/gteatime.desktop
+	@chmod -v 0644 $(DSTDIR)$(DESKTOPDIR)/gteatime.desktop
 
 uninstall-bin:
 	@rm -fv $(DSTDIR)$(BINDIR)/$(PROGRAM)
@@ -123,7 +123,7 @@ uninstall-icons:
 	fi
 
 uninstall-desktop:
-	@rm -fv $(DSTDIR)$(DESKTOPDIR)/$(DESKTOP_FILE)
+	@rm -fv $(DSTDIR)$(DESKTOPDIR)/gteatime.desktop
 
 install: install-bin install-icons install-desktop
 
