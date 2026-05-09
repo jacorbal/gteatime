@@ -96,6 +96,7 @@ install-icons:
 			exit 1; \
 		fi; \
 		cp -v $(ICO_D)/$$icon $(DSTDIR)$(ICONDIR)/$$icon; \
+		chmod -v 0644 $(DSTDIR)$(ICONDIR)/$$icon;
 	done
 	@if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
 		gtk-update-icon-cache -f \
