@@ -87,7 +87,8 @@ The code is written as C99-compliant.
 Most editable program constants, including icon names, user-visible
 identity strings, and tray protocol names, are in `include/defs.h`.
 
-## Author
+## Author and info.
 
   - J. A. Corbal <jacorbal@gmail.com>
-  - Last update: Fri May  8 18:52 UTC 2026
+  - Last update: Sat May  9 14:18 UTC 2026
+  - Version: 1.0.1

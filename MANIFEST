@@ -1,0 +1,32 @@
+MANIFEST -- `gteatime`
+======================
+
+gteatime/
+├── AUTHORS
+├── CHANGELOG
+├── LICENSE
+├── Makefile
+├── MANIFEST
+├── README.md
+├── icons/
+│   ├── gteatime-off.svg
+│   ├── gteatime-on.svg
+│   └── gteatime.svg
+├── include/
+│   ├── app_state.h
+│   ├── defs.h
+│   ├── notify.h
+│   ├── presets.h
+│   ├── timer.h
+│   ├── tray.h
+│   └── window.h
+└── src/
+    ├── app_state.c
+    ├── main.c
+    ├── notify.c
+    ├── presets.c
+    ├── timer.c
+    ├── tray.c
+    └── window.c
+
+4 directories, 23 files

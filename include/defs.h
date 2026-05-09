@@ -7,7 +7,7 @@
  * Copyright (c) 2026, J. A. Corbal.
  * All rights reserved.
  *
- * This file is licensed under the 'ISC License'.
+ * This file is licensed under the 'MIT License'.
  * Read the 'LICENSE' file in the root of this repository for details.
  */
 
@@ -18,12 +18,32 @@
 /**
  * @brief Application identifier used by GtkApplication
  */
-#define APP_ID "com.example.gteatime"
+#define APP_ID "io.github.jacorbal.gteatime"
 
 /**
  * @brief User-visible application title
  */
 #define APP_TITLE "Tea & Coffee Timer"
+
+/**
+ * @brief Application version string
+ */
+#define APP_VERSION "1.0.1"
+
+/**
+ * @brief Application author
+ */
+#define APP_AUTHOR "J. A. Corbal"
+
+/**
+ * @brief Application author email
+ */
+#define APP_AUTHOR_EMAIL "jacorbal@gmail.com"
+
+/**
+ * @brief Application description
+ */
+#define APP_DESCRIPTION "A lightweight GTK3 system-tray tea & coffee timer"
 
 /**
  * @brief Text shown when no timer is running

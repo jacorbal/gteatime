@@ -1,0 +1,15 @@
+CHANGELOG -- ` gteatime`
+========================
+
+## 1.0.1 -- Sat May  9 14:18 UTC 2026
+
+  - Change license (ISC -> MIT)
+  - Add some new tea & coffee times
+  - Show selection description
+  - Hide panel window with `Esc`
+  - Add 'About' button
+
+## 1.0.0 -- Fri May  8 18:52 UTC 2026
+
+  - First commit; basic funcionality
+  - License under ISC

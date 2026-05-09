@@ -7,7 +7,7 @@
  * Copyright (c) 2026, J. A. Corbal.
  * All rights reserved.
  *
- * This file is licensed under the 'ISC License'.
+ * This file is licensed under the 'MIT License'.
  * Read the 'LICENSE' file in the root of this repository for details.
  */
 
@@ -46,9 +46,11 @@ struct app_state {
     GtkApplication *gtk_app;            /**< GTK application instance */
     GtkWidget *window;                  /**< Main configuration window */
     GtkWidget *status_label;            /**< Label showing timer status */
+    GtkWidget *desc_label;              /**< Label showing tea description */
     GtkWidget *preset_combo;            /**< Combo box with timer presets */
     GtkWidget *start_button;            /**< Button to start/reset timer */
     GtkWidget *stop_button;             /**< Button to stop the timer */
+    GtkWidget *about_button;            /**< Button to show information */
     GtkWidget *tray_menu;               /**< Popup menu from the tray icon */
     GtkWidget *xembed_window;           /**< @a XEmbed fallback tray window */
     GtkWidget *xembed_event_box;        /**< Event box receiving tray events */

@@ -86,7 +86,7 @@ install-bin: all
 install-icons:
 	@mkdir -pv $(DSTDIR)$(ICONDIR)
 	for icon in $(ICONS); do \
-		@cp -v $(ICO_D)/$$icon $(DSTDIR)$(ICONDIR)/$$icon; \
+		cp -v $(ICO_D)/$$icon $(DSTDIR)$(ICONDIR)/$$icon; \
 	done
 	if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
 		gtk-update-icon-cache -f \
@@ -98,7 +98,7 @@ uninstall-bin:
 
 uninstall-icons:
 	for icon in $(ICONS); do \
-		@rm -fv $(DSTDIR)$(ICONDIR)/$$icon; \
+		rm -fv $(DSTDIR)$(ICONDIR)/$$icon; \
 	done
 	if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
 		gtk-update-icon-cache -f \

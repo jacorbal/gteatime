@@ -10,15 +10,16 @@
  *
  * @author J. A. Corbal <jacorbal@gmail.com>
  * @date Creation date: Fri May  8 18:52 UTC 2026
- * @version 1.0.0
+ * @date Version 1.0.1: Sat May  9 13:21 UTC 2026
+ * @version 1.0.1
  * @copyright Copyright (c) 2026, J. A. Corbal.
- *            ISC License <https://opensource.org/license/isc-license-txt>
+ *            MIT License <https://mit-license.org/>
  */
 /*
  * Copyright (c) 2026, J. A. Corbal.
  * All rights reserved.
  *
- * This file is licensed under the 'ISC License'.
+ * This file is licensed under the 'MIT License'.
  * Read the 'LICENSE' file in the root of this repository for details.
  */
 
