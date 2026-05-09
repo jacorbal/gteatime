@@ -3,7 +3,7 @@
 # Program: `gteatime`
 # Description: Lightweight GTK3 system-tray tea and coffee timer
 # Author: J. A. Corbal <jacorbal@gmail.com>
-# Last update: Fri May  8 18:52 UTC 2026
+# Last update: Sat May  9 00:00 UTC 2026
 
 OBJ_D = obj
 BIN_D = bin
@@ -25,6 +25,10 @@ ICONS = \
 	gteatime.svg \
 	gteatime-on.svg \
 	gteatime-off.svg
+
+# Desktop entry
+DESKTOPDIR ?= $(PREFIX)/share/applications
+DESKTOP_FILE = gteatime.desktop
 
 # Options
 CC = cc
@@ -85,42 +89,62 @@ install-bin: all
 
 install-icons:
 	@mkdir -pv $(DSTDIR)$(ICONDIR)
-	for icon in $(ICONS); do \
+	@for icon in $(ICONS); do \
+		if [ ! -f "$(ICO_D)/$$icon" ]; then \
+			echo "Error: Icon '$(ICO_D)/$$icon' not found"; \
+			exit 1; \
+		fi; \
 		cp -v $(ICO_D)/$$icon $(DSTDIR)$(ICONDIR)/$$icon; \
 	done
-	if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
+	@if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
 		gtk-update-icon-cache -f \
             -t $(DSTDIR)$(PREFIX)/share/icons/$(ICON_THEME); \
 	fi
+
+install-desktop:
+	@mkdir -pv $(DSTDIR)$(DESKTOPDIR)
+	@if [ ! -f "$(DESKTOP_FILE)" ]; then \
+		echo "Error: Desktop file '$(DESKTOP_FILE)' not found"; \
+		exit 1; \
+	fi
+	@cp -v $(DESKTOP_FILE) $(DSTDIR)$(DESKTOPDIR)/$(DESKTOP_FILE)
+	@chmod -v 0644 $(DSTDIR)$(DESKTOPDIR)/$(DESKTOP_FILE)
 
 uninstall-bin:
 	@rm -fv $(DSTDIR)$(BINDIR)/$(PROGRAM)
 
 uninstall-icons:
-	for icon in $(ICONS); do \
+	@for icon in $(ICONS); do \
 		rm -fv $(DSTDIR)$(ICONDIR)/$$icon; \
 	done
-	if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
+	@if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
 		gtk-update-icon-cache -f \
             -t $(DSTDIR)$(PREFIX)/share/icons/$(ICON_THEME); \
 	fi
 
-install: install-bin install-icons
+uninstall-desktop:
+	@rm -fv $(DSTDIR)$(DESKTOPDIR)/$(DESKTOP_FILE)
 
-uninstall: uninstall-bin uninstall-icons
+install: install-bin install-icons install-desktop
+
+uninstall: uninstall-bin uninstall-icons uninstall-desktop
 
 help:
 	@echo "OPTIONS:"
-	@echo "  make all         Build project"
-	@echo "  make clean-obj   Remove object directory '$(OBJ_D)'"
-	@echo "  make clean-bin   Remove binary directory '$(BIN_D)'"
-	@echo "  make install     Install binary on '$(DSTDIR)$(BINDIR)'"
-	@echo "  make uninstall   Remve binary from '$(DSTDIR)$(BINDIR)'"
+	@echo "  make all              Build project"
+	@echo "  make clean-obj        Remove object directory '$(OBJ_D)'"
+	@echo "  make clean-bin        Remove binary directory '$(BIN_D)'"
+	@echo "  make install          Install binary, icons, and desktop entry"
+	@echo "  make uninstall        Remove binary, icons, and desktop entry"
+	@echo "  make install-bin      Install only the binary"
+	@echo "  make install-icons    Install only the icons"
+	@echo "  make install-desktop  Install only the desktop entry"
 	@echo
 	@echo "  Change installation point by using 'PREFIX' and 'BINDIR':"
-	@echo "      e.g.,   make install PREFIX=/usr/share/"
-	@echo "      should install the binary in '/usr/share/bin' instead."
+	@echo "      e.g.,   make install PREFIX=/usr"
+	@echo "      installs the binary in '/usr/bin' instead."
 
 
 .PHONY: all clean clean-bin clean-obj help \
-        install-bin uninstall-bin install uninstall
+        install-bin install-icons install-desktop uninstall-bin \
+        uninstall-icons uninstall-desktop install uninstall
