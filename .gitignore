@@ -1,7 +1,9 @@
 # Project-related
 Build
 Doxyfile
+bin
 doc
+obj
 tags
 .*.sw?
 
