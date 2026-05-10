@@ -11,6 +11,18 @@ It was inspired by KDE’s classic `kteatime`, which I used in the early
 2000s before moving from that desktop environment to Openbox and
 a GTK3-only setup.
 
+- Systray icons, timer off and timer on (with tooltip) icons:
+
+![Systray off](doc/img/1.png)
+![Systray on with tooltip](doc/img/2.png)
+
+<!-- ![Systray drop-down](doc/img/3.png) -->
+
+- Selection window and about screen:
+
+![Panel](doc/img/4.png)
+![About](doc/img/5.png)
+
 ## Dependencies
 
   - `libgtk-3-dev`
