@@ -1,0 +1,115 @@
+<h1>gTeaTime -- A lightweight GTK3 system-tray tea and coffee timer</h1>
+
+<p><code>gTeaTime</code> (<em>Tea &amp; Coffee Timer</em>) is a GTK 3 systray timer for tea and
+coffee presets written in C.  It avoids <code>GtkStatusIcon</code> and
+<code>libappindicator</code>.  The tray integration first tries
+<code>StatusNotifierItem</code> over D-Bus using GIO, then falls back to the
+<code>XEmbed</code> system tray protocol on X11.</p>
+
+<p>It was inspired by KDE’s classic <code>kteatime</code>, which I used in the early
+2000s before moving from that desktop environment to Openbox and
+a GTK3-only setup.</p>
+
+<ul>
+<li>Systray icons, timer off and timer on (with tooltip) icons:</li>
+</ul>
+
+<p><img src="doc/img/1.png" alt="Systray off" />
+<img src="doc/img/2.png" alt="Systray on with tooltip" />
+<!-- <img src="doc/img/3.png" alt="Systray drop-down" /> --></p>
+
+<h2>Dependencies</h2>
+
+<ul>
+<li><code>libgtk-3-dev</code></li>
+<li><code>libx11-dev</code></li>
+<li><code>pkgconf</code> (for <code>Makefile</code>)</li>
+</ul>
+
+<p>On Debian-like systems:</p>
+
+<pre><code>sudo apt install pkgconf libgtk-3-dev libx11-dev
+</code></pre>
+
+<h2>Build</h2>
+
+<pre><code>make
+</code></pre>
+
+<h2>Local run</h2>
+
+<pre><code>./bin/gteatime
+</code></pre>
+
+<h2>Install</h2>
+
+<p>Installation of the binary and the three needed icons can be done with:</p>
+
+<pre><code>make install
+</code></pre>
+
+<p>By default it will be installed in <code>usr/local/bin</code>, but that can be
+changed using, of course, the <code>PREFIX</code> standard.  To install it in
+<code>/usr/bin</code>, use:</p>
+
+<pre><code>make PREFIX=/usr/ install
+</code></pre>
+
+<p>Icons can be copied into any theme.  Under <code>scalable/apps</code> is a good
+place.  For example: <code>~/.local/share/icons/my_icon_theme/scalable/apps/</code>.
+There are only three icons:</p>
+
+<ul>
+<li><code>gteatime.svg</code>  -- program icon</li>
+<li><code>gteatime-on.svg</code> -- systray running icon</li>
+<li><code>gteatime.off.svg</code> -- systray idle icon</li>
+</ul>
+
+<p>Although, the "on" and "off" icons are for the systray, and maybe it
+will be better to put them in the directory <code>scalable/status</code>.</p>
+
+<h2>Uninstall</h2>
+
+<pre><code>make uninstall
+</code></pre>
+
+<p>But if the program was installed by modifying the <code>PREFIX</code> directory, it
+has to be specified as well, and in the same way, when invoking
+<code>uninstall</code>.</p>
+
+<h2>Desktop support</h2>
+
+<p>This program requires either a desktop component that implements the
+<code>StatusNotifierItem</code> watcher protocol, or an X11 tray manager that owns
+<code>_NET_SYSTEM_TRAY_Sn</code> (where <em>n</em> is the X11 screen number).  KDE
+Plasma usually supports <code>StatusNotifierItem</code> directly.  XFCE and other
+X11 panels usually support the fallback tray.  GNOME on Wayland normally
+requires a tray or <code>StatusNotifierItem</code> extension.</p>
+
+<p>No <code>AppIndicator</code> API was used.</p>
+
+<h2>Behavior</h2>
+
+<ul>
+<li>Left click on the tray item opens the configuration window.</li>
+<li>Right click on the tray item opens the preset menu.</li>
+<li>Closing the window hides it and leaves the timer in the systray.</li>
+<li>The tray tooltip shows remaining time, or an idle message when no
+timer is running.</li>
+<li>A D-Bus desktop notification is shown when the timer completes.</li>
+</ul>
+
+<h2>Style notes</h2>
+
+<p>The code is written as C99-compliant.</p>
+
+<p>Most editable program constants, including icon names, user-visible
+identity strings, and tray protocol names, are in <code>include/defs.h</code>.</p>
+
+<h2>Author and info.</h2>
+
+<ul>
+<li>J. A. Corbal <a href="&#x6D;&#97;&#x69;&#x6C;t&#x6F;:j&#x61;&#99;&#x6F;&#x72;&#98;&#x61;&#108;&#64;&#103;&#109;&#97;&#105;&#x6C;&#46;&#99;&#111;&#x6D;">j&#x61;&#99;&#x6F;&#x72;&#98;&#x61;&#108;&#64;&#103;&#109;&#97;&#105;&#x6C;&#46;&#99;&#111;&#x6D;</a></li>
+<li>Last update: Sat May  9 14:18 UTC 2026</li>
+<li>Version: 1.0.1</li>
+</ul>
