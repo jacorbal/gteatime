@@ -15,13 +15,7 @@ a GTK3-only setup.
 
 ![Systray off](doc/img/1.png)
 ![Systray on with tooltip](doc/img/2.png)
-
 <!-- ![Systray drop-down](doc/img/3.png) -->
-
-- Selection window and about screen:
-
-![Panel](doc/img/4.png)
-![About](doc/img/5.png)
 
 ## Dependencies
 
