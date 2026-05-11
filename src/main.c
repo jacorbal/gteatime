@@ -14,7 +14,7 @@
  * @date Version 1.0.1: Sat May  9 13:21 UTC 2026
  * @date Version 1.0.2: Mon May 11 00:22 UTC 2026
  * @copyright Copyright (c) 2026, J. A. Corbal.
- *            MIT License <https://mit-license.org/>
+ *            The MIT License <https://mit-license.org/>
  */
 /*
  * Copyright (c) 2026, J. A. Corbal.

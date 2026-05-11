@@ -3,7 +3,7 @@ CHANGELOG -- ` gteatime`
 
 ## 1.0.2 -- Mon May 11 00:22 UTC 2026
 
-  - Update presets
+  - Update `src/presets.c`
   - Update `README.md`
 
 ## 1.0.1 -- Sat May  9 14:18 UTC 2026

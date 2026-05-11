@@ -8,7 +8,7 @@ coffee presets written in C.  It avoids `GtkStatusIcon` and
 `XEmbed` system tray protocol on X11.
 
    - **Last update:** Mon May 11 00:22 UTC 2026
-   - **Current version:** 1.0.3
+   - **Current version:** 1.0.2
 
 It was inspired by KDE’s classic `kteatime`, which I used in the early
 2000s before moving from that desktop environment to Openbox and
