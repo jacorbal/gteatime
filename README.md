@@ -7,6 +7,9 @@ coffee presets written in C.  It avoids `GtkStatusIcon` and
 `StatusNotifierItem` over D-Bus using GIO, then falls back to the
 `XEmbed` system tray protocol on X11.
 
+   - **Last update:** Mon May 11 00:22 UTC 2026
+   - **Current version:** 1.0.3
+
 It was inspired by KDE’s classic `kteatime`, which I used in the early
 2000s before moving from that desktop environment to Openbox and
 a GTK3-only setup.
@@ -93,8 +96,6 @@ The code is written as C99-compliant.
 Most editable program constants, including icon names, user-visible
 identity strings, and tray protocol names, are in `include/defs.h`.
 
-## Author and info.
+## Author
 
   - J. A. Corbal <jacorbal@gmail.com>
-  - Last update: Mon May 11 00:22 UTC 2026
-  - Version: 1.0.2
