@@ -28,7 +28,7 @@
 /**
  * @brief Application version string
  */
-#define APP_VERSION "1.0.1"
+#define APP_VERSION "1.0.2"
 
 /**
  * @brief Application author
@@ -43,7 +43,7 @@
 /**
  * @brief Application description
  */
-#define APP_DESCRIPTION "A lightweight GTK3 system-tray tea & coffee timer"
+#define APP_DESCRIPTION "A lightweight GTK 3 system-tray tea & coffee timer"
 
 /**
  * @brief Text shown when no timer is running
