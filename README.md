@@ -56,7 +56,7 @@ There are only three icons:
 
   - `gteatime.svg`  -- program icon
   - `gteatime-on.svg` -- systray running icon
-  - `gteatime.off.svg` -- systray idle icon
+  - `gteatime-off.svg` -- systray idle icon
 
 Although, the "on" and "off" icons are for the systray, and maybe it
 will be better to put them in the directory `scalable/status`.
