@@ -1,7 +1,7 @@
-gTeaTime -- A lightweight GTK3 system-tray tea and coffee timer
-===============================================================
+`gteatime` -- A lightweight GTK 3 system-tray tea and coffee timer
+==================================================================
 
-`gTeaTime` (*Tea & Coffee Timer*) is a GTK 3 systray timer for tea and
+`gteatime` (*tea & coffee timer*) is a GTK 3 systray timer for tea and
 coffee presets written in C.  It avoids `GtkStatusIcon` and
 `libappindicator`.  The tray integration first tries
 `StatusNotifierItem` over D-Bus using GIO, then falls back to the
@@ -11,11 +11,11 @@ It was inspired by KDE’s classic `kteatime`, which I used in the early
 2000s before moving from that desktop environment to Openbox and
 a GTK3-only setup.
 
-- Systray icons, timer off and timer on (with tooltip) icons:
+- Timer off and timer on (with tooltip) icons on systray:
 
-![Systray off](doc/img/1.png)
-![Systray on with tooltip](doc/img/2.png)
-<!-- ![Systray drop-down](doc/img/3.png) -->
+![Systray timer off](doc/img/1.png)
+![Systray timer on with tooltip](doc/img/2.png)
+<!-- ![Systray drop-down selector](doc/img/3.png) -->
 
 ## Dependencies
 
@@ -96,5 +96,5 @@ identity strings, and tray protocol names, are in `include/defs.h`.
 ## Author and info.
 
   - J. A. Corbal <jacorbal@gmail.com>
-  - Last update: Sat May  9 14:18 UTC 2026
-  - Version: 1.0.1
+  - Last update: Mon May 11 00:22 UTC 2026
+  - Version: 1.0.2

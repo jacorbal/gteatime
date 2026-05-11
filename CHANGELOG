@@ -1,9 +1,14 @@
 CHANGELOG -- ` gteatime`
 ========================
 
+## 1.0.2 -- Mon May 11 00:22 UTC 2026
+
+  - Update presets
+  - Update `README.md`
+
 ## 1.0.1 -- Sat May  9 14:18 UTC 2026
 
-  - Change license (ISC -> MIT)
+  - Change license to MIT (from ISC)
   - Add some new tea & coffee times
   - Show selection description
   - Hide panel window with `Esc`

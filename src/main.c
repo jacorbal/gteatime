@@ -9,9 +9,10 @@
  * environment.
  *
  * @author J. A. Corbal <jacorbal@gmail.com>
+ * @version 1.0.2
  * @date Creation date: Fri May  8 18:52 UTC 2026
  * @date Version 1.0.1: Sat May  9 13:21 UTC 2026
- * @version 1.0.1
+ * @date Version 1.0.2: Mon May 11 00:22 UTC 2026
  * @copyright Copyright (c) 2026, J. A. Corbal.
  *            MIT License <https://mit-license.org/>
  */
