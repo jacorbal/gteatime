@@ -1,0 +1,9 @@
+gteatime (1.0.2-1) unstable; urgency=medium
+
+  * Initial Debian packaging.
+  * Add machine-readable debian/copyright.
+  * Add manual page gteatime(1).
+  * Add desktop entry and icons installation.
+  * Package upstream GTK3 tea and coffee tray timer.
+
+ -- J. A. Corbal <jacorbal@gmail.com>  Thu, 21 May 2026 01:30:35 +0200

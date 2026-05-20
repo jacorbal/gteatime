@@ -1,0 +1,19 @@
+Source: gteatime
+Section: x11
+Priority: optional
+Maintainer: J. A. Corbal <jacorbal@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+ libgtk-3-dev,
+ libx11-dev,
+ pkgconf
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+Homepage: https://github.com/jacorbal/gteatime
+
+Package: gteatime
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: lightweight GTK3 system-tray tea and coffee timer
+ GTK3 tray timer for tea and coffee presets written in C inspired by
+ kteatime.  It uses StatusNotifierItem over D-Bus when available and
+ falls back to the XEmbed system tray protocol on X11.
