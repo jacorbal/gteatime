@@ -32,14 +32,15 @@ static const TimerPreset timer_presets[] = {
     { "Hibiscus tea",               10,   "Tart floral herbal infusion (5–10 min)" },
     { "Masala chai",                11,   "Spiced black tea; if boiled with milk, 3–10 min depending on strength" },
     { "Peppermint strong",          12,   "Bold peppermint herbal infusion (8–10 min for strong cup)" },
-    { "Cinnamon bark decoction",    13,   "Sweet spiced bark simmer (10–15 min)" },
-    { "Ginger root decoction",      15,   "Root simmer for deep extraction (10–20 min)" },
-    { "Turmeric decoction",         18,   "Long simmered turmeric root brew (10–20+ min)" },
-    { "Dandelion root decoction",   22,   "Slow roasted root decoction (20–30 min)" },
-    { "Mixed roots decoction",      25,   "Strong multi-root herbal decoction (20–30+ min)" },
+    { "Cinnamon bark decoction",    15,   "Sweet spiced cinnamon bark simmer (15 min)" },
+    { "Ginger root decoction",      18,   "Deep ginger root decoction (18 min simmer)" },
+    { "Turmeric root decoction",    20,   "Turmeric root decoction for fuller extraction (15-20+ min)" },
+    { "Roasted chicory decoction",  25,   "Slow-simmered roasted chicory root for a coffee-like cup" },
+    { "Dandelion root decoction",   30,   "Slow dandelion root decoction (about 30 min)" },
+    { "Mixed roots long decoction", 60,   "Very long multi-root decoction (1-hour simmer)" },
     { "Overnight cold mugicha",    480,   "Cold-steeped roasted barley tea (8–12 h)" },
     { "Cold brew coffee",          720,   "Long cold coffee extraction (12–18 h)" },
-    { "Sourdough bread",          1440,   "Naturally leavened bread with overnight cold proof (24 h)" },
+    //{ "Sourdough bread",          1440,   "Naturally leavened bread with overnight cold proof (24 h)" },
 };
 
 
