@@ -3,8 +3,8 @@
 # Program: `gteatime`
 # Description: Lightweight GTK3 system-tray tea and coffee timer
 # Author: J. A. Corbal <jacorbal@gmail.com>
-# Last update: Sat May  9 14:18 UTC 2026
-# Version: 1.0.1
+# Last update: Thu May 21 20:35 UTC 2026
+# Version: 1.0.2
 
 OBJ_D = obj
 BIN_D = bin
