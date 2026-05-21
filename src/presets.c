@@ -31,7 +31,7 @@ static const TimerPreset timer_presets[] = {
     { "Ginger tea",                  9,   "Warming spicy herbal infusion (infusion; decoction longer)" },
     { "Hibiscus tea",               10,   "Tart floral herbal infusion (5–10 min)" },
     { "Masala chai",                11,   "Spiced black tea; if boiled with milk, 3–10 min depending on strength" },
-    { "Peppermint strong",          12,   "Bold peppermint herbal infusion (8–10 min for strong cup)" },
+    { "Peppermint extra strong",    12,   "Extra-potent peppermint herbal infusion with a bold, minty character" },
     { "Cinnamon bark decoction",    15,   "Sweet spiced cinnamon bark simmer (15 min)" },
     { "Ginger root decoction",      18,   "Deep ginger root decoction (18 min simmer)" },
     { "Turmeric root decoction",    20,   "Turmeric root decoction for fuller extraction (15-20+ min)" },
