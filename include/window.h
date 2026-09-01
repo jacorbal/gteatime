@@ -34,7 +34,18 @@ void window_create(AppState *app);
 void window_show(AppState *app);
 
 /**
- * @brief Toggle main window visibility
+ * @brief Destroy the main configuration window
+ *
+ * @param app Shared application state
+ *
+ * @note The window is destroyed instead of hidden, so no window
+ *       manager can restore it on its own and the next @a window_show()
+ *       maps a brand new window on the current desktop
+ */
+void window_close(AppState *app);
+
+/**
+ * @brief Create or destroy the main window, depending on its state
  *
  * @param app Shared application state
  */

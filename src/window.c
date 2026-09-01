@@ -45,20 +45,15 @@ static void s_stop_clicked_cb(GtkButton *button, gpointer user_data);
 static void s_preset_changed_cb(GtkComboBox *combo, gpointer user_data);
 
 /**
- * @brief Hides the window instead of destroying it
+ * @brief Forget every widget owned by the destroyed window
  *
- * @param widget    Window widget
- * @param event     Delete event
+ * @param widget    Window widget being destroyed
  * @param user_data AppState pointer
- *
- * @return @c true to stop default destruction
  */
-static gboolean s_window_delete_event_cb(GtkWidget *widget,
-                                       GdkEvent *event,
-                                       gpointer user_data);
+static void s_window_destroy_cb(GtkWidget *widget, gpointer user_data);
 
 /**
- * @brief Handle key press events (ESC to hide window)
+ * @brief Handle key press events (ESC to close the window)
  *
  * @param widget    Window widget
  * @param event     Key press event
@@ -98,8 +93,8 @@ void window_create(AppState *app)
     gtk_window_set_resizable(GTK_WINDOW(app->window), FALSE);
     gtk_window_set_icon_name(GTK_WINDOW(app->window), APP_ICON_NAME);
     g_signal_connect(app->window,
-                     "delete-event",
-                     G_CALLBACK(s_window_delete_event_cb),
+                     "destroy",
+                     G_CALLBACK(s_window_destroy_cb),
                      app);
     g_signal_connect(app->window,
                      "key-press-event",
@@ -218,18 +213,25 @@ void window_show(AppState *app)
 }
 
 
-/* Toggle main window visibility */
+/* Destroy the main configuration window */
+void window_close(AppState *app)
+{
+    if (app->window == NULL) {
+        return;
+    }
+
+    /* 's_window_destroy_cb' clears every widget pointer */
+    gtk_widget_destroy(app->window);
+}
+
+
+/* Create or destroy the main window, depending on its state */
 void window_toggle_visible(AppState *app)
 {
     if (app->window == NULL) {
         window_show(app);
-        return;
-    }
-
-    if (gtk_widget_get_visible(app->window) == TRUE) {
-        gtk_widget_hide(app->window);
     } else {
-        window_show(app);
+        window_close(app);
     }
 }
 
@@ -336,29 +338,36 @@ static void s_preset_changed_cb(GtkComboBox *combo, gpointer user_data)
 }
 
 
-/* Hides the window instead of destroying it */
-static gboolean s_window_delete_event_cb(GtkWidget *widget,
-                                         GdkEvent *event,
-                                         gpointer user_data)
+/* Forget every widget owned by the destroyed window */
+static void s_window_destroy_cb(GtkWidget *widget, gpointer user_data)
 {
-    (void) event;
-    (void) user_data;
-  
-    gtk_widget_hide(widget);
+    AppState *app;
 
-    return TRUE;
+    (void) widget;
+
+    app = user_data;
+    app->window = NULL;
+    app->status_label = NULL;
+    app->desc_label = NULL;
+    app->preset_combo = NULL;
+    app->start_button = NULL;
+    app->stop_button = NULL;
+    app->about_button = NULL;
 }
 
 
-/* Handle key press events (ESC to hide window) */
+/* Handle key press events (ESC to close the window) */
 static gboolean s_window_key_press_cb(GtkWidget *widget,
                                       GdkEventKey *event,
                                       gpointer user_data)
 {
-    (void) user_data;
+    AppState *app;
 
+    (void) widget;
+
+    app = user_data;
     if (event->keyval == GDK_KEY_Escape) {
-        gtk_widget_hide(widget);
+        window_close(app);
         return TRUE;
     }
 

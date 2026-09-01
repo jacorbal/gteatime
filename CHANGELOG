@@ -1,9 +1,20 @@
 CHANGELOG -- ` gteatime`
 ========================
 
+## 1.0.3 -- Tue Sep  2 14:29 UTC 2026
+
+  - Destroy the main window instead of hiding it
+  - Handle a second invocation by raising the window
+  - Update `README.md`
+
+## 1.0.2 -- Mon May 11 00:22 UTC 2026
+
+  - Update `src/presets.c`
+  - Update `README.md`
+
 ## 1.0.1 -- Sat May  9 14:18 UTC 2026
 
-  - Change license (ISC -> MIT)
+  - Change license to MIT (from ISC)
   - Add some new tea & coffee times
   - Show selection description
   - Hide panel window with `Esc`

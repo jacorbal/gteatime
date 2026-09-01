@@ -66,6 +66,7 @@ struct app_state {
     gchar *sni_bus_name;                /**< SNI bus name owned by process */
     gchar *tooltip_text;                /**< Current tray tooltip text */
     gboolean xembed_ready;              /**< @a XEmbed fallback is docked */
+    gboolean is_activated;              /**< App. was already activated */
     AppStateCallback state_changed_cb;  /**< Callback for state changes */
     void *state_changed_data;           /**< User data passed state callback */
 };

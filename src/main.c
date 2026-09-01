@@ -9,11 +9,13 @@
  * environment.
  *
  * @author J. A. Corbal <jacorbal@gmail.com>
+ * @version 1.0.3
  * @date Creation date: Fri May  8 18:52 UTC 2026
  * @date Version 1.0.1: Sat May  9 13:21 UTC 2026
- * @version 1.0.1
+ * @date Version 1.0.2: Mon May 11 00:22 UTC 2026
+ * @date Version 1.0.3: Tue Sep  2 14:29 UTC 2026
  * @copyright Copyright (c) 2026, J. A. Corbal.
- *            MIT License <https://mit-license.org/>
+ *            The MIT License <https://mit-license.org/>
  */
 /*
  * Copyright (c) 2026, J. A. Corbal.
@@ -98,6 +100,15 @@ static void s_app_activate_cb(GtkApplication *gtk_app,
     (void) gtk_app;
 
     app = user_data;
+
+    /* A second invocation is routed here by GApplication, and it must
+     * only raise the window of the instance that is already running */
+    if (app->is_activated == TRUE) {
+        window_show(app);
+        return;
+    }
+
+    app->is_activated = TRUE;
     tray_ready = tray_init(app);
     if (tray_ready == FALSE) {
         window_show(app);

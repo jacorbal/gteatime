@@ -17,7 +17,7 @@ PROGRAM = gteatime
 
 PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin
-DSTDIR ?=
+DESTDIR ?=
 
 # Icons directory
 ICON_THEME ?= hicolor
@@ -84,48 +84,48 @@ clean-obj:
 clean: clean-obj clean-bin
 
 install-bin: all
-	@mkdir -pv $(DSTDIR)$(BINDIR)
-	@cp -v $(BIN_D)/$(PROGRAM) $(DSTDIR)$(BINDIR)/$(PROGRAM)
-	@chmod -v 0755 $(DSTDIR)$(BINDIR)/$(PROGRAM)
+	@mkdir -pv $(DESTDIR)$(BINDIR)
+	@cp -v $(BIN_D)/$(PROGRAM) $(DESTDIR)$(BINDIR)/$(PROGRAM)
+	@chmod -v 0755 $(DESTDIR)$(BINDIR)/$(PROGRAM)
 
 install-icons:
-	@mkdir -pv $(DSTDIR)$(ICONDIR)
+	@mkdir -pv $(DESTDIR)$(ICONDIR)
 	@for icon in $(ICONS); do \
 		if [ ! -f "$(ICO_D)/$$icon" ]; then \
 			echo "Error: Icon '$(ICO_D)/$$icon' not found"; \
 			exit 1; \
 		fi; \
-		cp -v $(ICO_D)/$$icon $(DSTDIR)$(ICONDIR)/$$icon; \
-		chmod -v 0644 $(DSTDIR)$(ICONDIR)/$$icon;
+		cp -v $(ICO_D)/$$icon $(DESTDIR)$(ICONDIR)/$$icon; \
+		chmod -v 0644 $(DESTDIR)$(ICONDIR)/$$icon; \
 	done
-	@if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
-		gtk-update-icon-cache -f \
-            -t $(DSTDIR)$(PREFIX)/share/icons/$(ICON_THEME); \
-	fi
+#	@if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
+#		gtk-update-icon-cache -f \
+#			-t $(DESTDIR)$(PREFIX)/share/icons/$(ICON_THEME); \
+#	fi
 
 install-desktop:
-	@mkdir -pv $(DSTDIR)$(DESKTOPDIR)
+	@mkdir -pv $(DESTDIR)$(DESKTOPDIR)
 	@if [ ! -f "$(DESKTOP_FILE)" ]; then \
 		echo "Error: Desktop file '$(DESKTOP_FILE)' not found"; \
 		exit 1; \
 	fi
-	@cp -v $(DESKTOP_FILE) $(DSTDIR)$(DESKTOPDIR)/gteatime.desktop
-	@chmod -v 0644 $(DSTDIR)$(DESKTOPDIR)/gteatime.desktop
+	@cp -v $(DESKTOP_FILE) $(DESTDIR)$(DESKTOPDIR)/gteatime.desktop
+	@chmod -v 0644 $(DESTDIR)$(DESKTOPDIR)/gteatime.desktop
 
 uninstall-bin:
-	@rm -fv $(DSTDIR)$(BINDIR)/$(PROGRAM)
+	@rm -fv $(DESTDIR)$(BINDIR)/$(PROGRAM)
 
 uninstall-icons:
 	@for icon in $(ICONS); do \
-		rm -fv $(DSTDIR)$(ICONDIR)/$$icon; \
+		rm -fv $(DESTDIR)$(ICONDIR)/$$icon; \
 	done
-	@if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
-		gtk-update-icon-cache -f \
-            -t $(DSTDIR)$(PREFIX)/share/icons/$(ICON_THEME); \
-	fi
+#	@if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
+#		gtk-update-icon-cache -f \
+#			-t $(DESTDIR)$(PREFIX)/share/icons/$(ICON_THEME); \
+#	fi
 
 uninstall-desktop:
-	@rm -fv $(DSTDIR)$(DESKTOPDIR)/gteatime.desktop
+	@rm -fv $(DESTDIR)$(DESKTOPDIR)/gteatime.desktop
 
 install: install-bin install-icons install-desktop
 

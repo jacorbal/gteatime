@@ -27,9 +27,11 @@ void app_state_init(AppState *app, GtkApplication *gtk_app)
     app->gtk_app = gtk_app;
     app->window = NULL;
     app->status_label = NULL;
+    app->desc_label = NULL;
     app->preset_combo = NULL;
     app->start_button = NULL;
     app->stop_button = NULL;
+    app->about_button = NULL;
     app->tray_menu = NULL;
     app->xembed_window = NULL;
     app->xembed_event_box = NULL;
@@ -45,6 +47,7 @@ void app_state_init(AppState *app, GtkApplication *gtk_app)
     app->sni_bus_name = NULL;
     app->tooltip_text = g_strdup(APP_TIMER_OFF_TEXT);
     app->xembed_ready = FALSE;
+    app->is_activated = FALSE;
     app->state_changed_cb = NULL;
     app->state_changed_data = NULL;
 }

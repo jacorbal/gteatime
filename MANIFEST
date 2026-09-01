@@ -5,14 +5,29 @@ gteatime/
 ├── AUTHORS
 ├── CHANGELOG
 ├── LICENSE
-├── Makefile
 ├── MANIFEST
+├── Makefile
 ├── README.md
-├── icons/
+├── debian
+│   ├── README.source
+│   ├── changelog
+│   ├── control
+│   ├── copyright
+│   ├── files
+│   ├── gteatime.1
+│   ├── install
+│   ├── manpages
+│   ├── rules
+│   ├── source
+│   │   └── format
+│   └── watch
+├── desktop
+│   └── gteatime.desktop
+├── icons
 │   ├── gteatime-off.svg
 │   ├── gteatime-on.svg
 │   └── gteatime.svg
-├── include/
+├── include
 │   ├── app_state.h
 │   ├── defs.h
 │   ├── notify.h
@@ -20,7 +35,9 @@ gteatime/
 │   ├── timer.h
 │   ├── tray.h
 │   └── window.h
-└── src/
+├── man
+│   └── gteatime.1.gz
+└── src
     ├── app_state.c
     ├── main.c
     ├── notify.c
@@ -28,5 +45,5 @@ gteatime/
     ├── timer.c
     ├── tray.c
     └── window.c
-
-4 directories, 23 files
+ 
+8 directories, 36 files

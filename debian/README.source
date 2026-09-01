@@ -1,0 +1,10 @@
+gteatime for Debian
+-------------------
+
+This source package is straightforward and does not require any special
+handling beyond the usual Debian packaging workflow.
+
+No Debian-specific patches are currently carried.
+
+The package builds directly from the upstream source using the provided
+Makefile and the standard debhelper sequence.

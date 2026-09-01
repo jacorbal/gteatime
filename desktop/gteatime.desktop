@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
 Name=Tea & Coffee Timer
-Comment=A lightweight GTK3 system-tray tea and coffee timer
+Comment=A lightweight GTK3 system-tray tea and coffee timer for the systray
 Icon=gteatime
 Exec=gteatime
 Terminal=false
-Categories=Utility;
+Categories=GTK;Utility;
 StartupNotify=true
