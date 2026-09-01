@@ -1,7 +1,7 @@
 Source: gteatime
 Section: x11
 Maintainer: J. A. Corbal <jacorbal@gmail.com>
-Build-Depends: debhelper-compat (= 14),
+Build-Depends: debhelper-compat (= 13),
  libgtk-3-dev,
  libx11-dev,
  pkgconf
