@@ -1,2 +1,4 @@
-version=5
-# No upstream release URL yet.
+Version: 5
+Template: GitHub
+Owner: jacorbal
+Project: gteatime
