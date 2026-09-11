@@ -136,5 +136,30 @@
  */
 #define XEMBED_SYSTEM_TRAY_REQUEST_DOCK 0
 
+/**
+ * @brief Atom name for the XEmbed protocol client message
+ */
+#define XEMBED_MESSAGE_ATOM "_XEMBED"
+
+/**
+ * @brief XEmbed opcode sent by the manager once docking succeeds
+ */
+#define XEMBED_EMBEDDED_NOTIFY 0
+
+/**
+ * @brief Atom name for the property advertising XEmbed support
+ */
+#define XEMBED_INFO_ATOM "_XEMBED_INFO"
+
+/**
+ * @brief XEmbed protocol version implemented by this client
+ */
+#define XEMBED_INFO_PROTOCOL_VERSION 0
+
+/**
+ * @brief XEmbed info flag indicating the window is mapped
+ */
+#define XEMBED_INFO_FLAG_MAPPED 1
+
 
 #endif  /* ! DEFS_H */

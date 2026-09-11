@@ -92,6 +92,10 @@ static const char s_sni_introspection_xml[] =
 
 static GDBusNodeInfo *sni_node_info = NULL;
 
+#ifdef GDK_WINDOWING_X11
+static Atom s_xembed_message_atom = None;
+#endif
+
 /**
  * @brief Handle D-Bus method calls for the StatusNotifierItem object
  *
@@ -252,6 +256,54 @@ static gboolean s_tray_xembed_button_press_cb(GtkWidget *widget,
  */
 static gboolean s_tray_xembed_draw_cb(GtkWidget *widget, cairo_t *cr,
         gpointer user_data);
+
+/**
+ * @brief Publish the @c _XEMBED_INFO property on the icon window
+ *
+ * The XEmbed protocol expects an embeddable window to carry this
+ * property before a host reparents it, naming the protocol version
+ * implemented and flagging the window as mapped, so the host knows
+ * it is dealing with a compliant client rather than a plain window.
+ *
+ * @param display X11 display connection
+ * @param window  Tray icon window receiving the property
+ */
+static void s_tray_xembed_set_info(Display *display, Window window);
+
+/**
+ * @brief Watch for the XEmbed notification confirming a dock request
+ *
+ * The background pixmap set on the icon window is only meaningful
+ * once the tray host has actually reparented it, since until then
+ * @c ParentRelative still refers to whatever briefly parented the
+ * window beforehand.  A full redraw is queued once
+ * @c XEMBED_EMBEDDED_NOTIFY arrives, so the icon picks up the host's
+ * real background instead of leaving stale content on screen.
+ *
+ * @param xevent    Native X11 event, cast from @c XEvent
+ * @param event     Unused GDK event wrapper
+ * @param user_data AppState pointer
+ *
+ * @return @c GDK_FILTER_CONTINUE, so GDK still processes the event
+ */
+static GdkFilterReturn s_tray_xembed_client_message_cb(GdkXEvent *xevent,
+        GdkEvent *event, gpointer user_data);
+
+/**
+ * @brief Force a redraw when the tray host resizes the icon window
+ *
+ * @c gtk_widget_set_size_request only sets a hint: once docked, the
+ * tray host is free to assign the window a different size, and
+ * nothing else in this file reacts to that on its own.
+ *
+ * @param widget    Tray icon window receiving the new geometry
+ * @param event     Unused configure event
+ * @param user_data Unused
+ *
+ * @return @c false, so the default handler still runs
+ */
+static gboolean s_tray_xembed_configure_cb(GtkWidget *widget,
+        GdkEventConfigure *event, gpointer user_data);
 
 /**
  * @brief Choose the tray icon name for the current timer state
@@ -648,6 +700,73 @@ static void s_tray_popup_menu(AppState *app, gint x, gint y)
 }
 
 
+#ifdef GDK_WINDOWING_X11
+/* Publish the '_XEMBED_INFO' property on the icon window */
+static void s_tray_xembed_set_info(Display *display, Window window)
+{
+    unsigned long info[2];
+    Atom info_atom;
+
+    info[0] = XEMBED_INFO_PROTOCOL_VERSION;
+    info[1] = XEMBED_INFO_FLAG_MAPPED;
+    info_atom = XInternAtom(display, XEMBED_INFO_ATOM, False);
+
+    XChangeProperty(display, window, info_atom, info_atom, 32,
+                    PropModeReplace, (unsigned char *) info, 2);
+}
+#endif
+
+
+/* Watch for the XEmbed notification confirming a dock request */
+static GdkFilterReturn s_tray_xembed_client_message_cb(GdkXEvent *xevent,
+        GdkEvent *event, gpointer user_data)
+{
+#ifdef GDK_WINDOWING_X11
+    AppState *app;
+    XEvent *native_event;
+
+    (void) event;
+
+    app = user_data;
+    native_event = (XEvent *) xevent;
+    if (native_event->type != ClientMessage) {
+        return GDK_FILTER_CONTINUE;
+    }
+
+    if (s_xembed_message_atom == None) {
+        s_xembed_message_atom =
+            XInternAtom(native_event->xclient.display,
+                       XEMBED_MESSAGE_ATOM, False);
+    }
+
+    if (native_event->xclient.message_type == s_xembed_message_atom &&
+            native_event->xclient.data.l[1] == XEMBED_EMBEDDED_NOTIFY) {
+        gtk_widget_queue_draw(app->xembed_window);
+    }
+
+    return GDK_FILTER_CONTINUE;
+#else
+    (void) xevent;
+    (void) event;
+    (void) user_data;
+    return GDK_FILTER_CONTINUE;
+#endif
+}
+
+
+/* Force a redraw when the tray host resizes the icon window */
+static gboolean s_tray_xembed_configure_cb(GtkWidget *widget,
+        GdkEventConfigure *event, gpointer user_data)
+{
+    (void) event;
+    (void) user_data;
+
+    gtk_widget_queue_draw(widget);
+
+    return FALSE;
+}
+
+
 /* Initializes the XEmbed fallback tray icon */
 static gboolean s_tray_xembed_init(AppState *app)
 {
@@ -706,6 +825,10 @@ static gboolean s_tray_xembed_init(AppState *app)
                      "draw",
                      G_CALLBACK(s_tray_xembed_draw_cb),
                      NULL);
+    g_signal_connect(app->xembed_window,
+                     "configure-event",
+                     G_CALLBACK(s_tray_xembed_configure_cb),
+                     NULL);
 
     icon_name = s_tray_icon_name(app);
     gtk_window_set_title(GTK_WINDOW(app->xembed_window), APP_TITLE);
@@ -736,7 +859,11 @@ static gboolean s_tray_xembed_init(AppState *app)
                      G_CALLBACK(s_tray_xembed_button_press_cb),
                      app);
 
-    gtk_widget_show_all(app->xembed_window);
+    /* Realized, not yet mapped: the '_XEMBED_INFO' property has to be
+     * in place before the tray host can see this window at all, and
+     * the background pixmap has to be in place before the window is
+     * docked, so neither can wait until after 'gtk_widget_show_all'
+     * maps it. */
     gtk_widget_realize(app->xembed_window);
 
     gdk_window = gtk_widget_get_window(app->xembed_window);
@@ -750,12 +877,17 @@ static gboolean s_tray_xembed_init(AppState *app)
 
     icon_window = gdk_x11_window_get_xid(gdk_window);
 
+    s_tray_xembed_set_info(display, icon_window);
+    gdk_window_add_filter(gdk_window, s_tray_xembed_client_message_cb, app);
+
     /* The background the draw handler above clears to.  Set once the
      * window exists and before it is docked, since reparenting a
      * window that already has a parent-relative background into a
      * parent of the same depth is what the tray specification expects
      * of an icon when no alpha visual is on offer. */
     XSetWindowBackgroundPixmap(display, icon_window, ParentRelative);
+
+    gtk_widget_show_all(app->xembed_window);
 
     opcode_atom = XInternAtom(display, XEMBED_SYSTEM_TRAY_OPCODE, False);
 
@@ -789,7 +921,15 @@ static gboolean s_tray_xembed_init(AppState *app)
 /* Shut down the XEmbed fallback tray icon */
 static void s_tray_xembed_shutdown(AppState *app)
 {
+    GdkWindow *gdk_window;
+
     if (app->xembed_window != NULL) {
+        gdk_window = gtk_widget_get_window(app->xembed_window);
+        if (gdk_window != NULL) {
+            gdk_window_remove_filter(gdk_window,
+                                     s_tray_xembed_client_message_cb, app);
+        }
+
         gtk_widget_destroy(app->xembed_window);
         app->xembed_window = NULL;
         app->xembed_event_box = NULL;
