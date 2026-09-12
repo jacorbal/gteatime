@@ -161,5 +161,10 @@
  */
 #define XEMBED_INFO_FLAG_MAPPED 1
 
+/**
+ * @brief Side length, in pixels, of the XEmbed fallback tray icon
+ */
+#define TRAY_XEMBED_ICON_SIZE 24
+
 
 #endif  /* ! DEFS_H */

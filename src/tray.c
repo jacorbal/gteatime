@@ -235,22 +235,30 @@ static gboolean s_tray_xembed_button_press_cb(GtkWidget *widget,
         GdkEventButton *event, gpointer user_data);
 
 /**
- * @brief Clear the tray icon window to its parent-relative background
+ * @brief Capture the tray host's current background into the icon
  *
- * The window's background is @c ParentRelative, so the X server has
- * the panel's own pixels for it, but GDK does not know that and its
- * own clearing would leave the surface at whatever it happened to
- * hold.  @c XClearArea asks the server to repaint the exposed part
- * from that background, which is why this reaches past GDK: it is
- * what GTK's own @c gtk_tray_icon_draw does for a tray that offers no
- * visual with an alpha channel.
+ * Reads the icon window's own current pixels, which is the tray
+ * host's real background as long as this runs after the window has
+ * actually been reparented into it, since the background pixmap is
+ * @c ParentRelative.  The result is what @a s_tray_xembed_draw_cb
+ * paints underneath the icon, so its edges blend against the real
+ * host background instead of undefined content.
  *
- * The Cairo surface is flushed before and marked dirty afterwards, so
- * that Cairo does not overwrite what the server just drew.
+ * @param app Shared application state
+ */
+static void s_tray_xembed_capture_background(AppState *app);
+
+/**
+ * @brief Paint the captured background behind the XEmbed tray icon
+ *
+ * Runs before GTK's own default handler, which then draws the icon
+ * on top with its own alpha blending, so this only ever needs to
+ * supply what the icon should blend against.  Nothing here touches
+ * double buffering or draws outside GTK's normal Cairo pipeline.
  *
  * @param widget    Tray icon window being drawn
  * @param cr        Cairo context to draw on
- * @param user_data Unused
+ * @param user_data AppState pointer
  *
  * @return @c false, so the icon itself still draws on top
  */
@@ -273,12 +281,11 @@ static void s_tray_xembed_set_info(Display *display, Window window);
 /**
  * @brief Watch for the XEmbed notification confirming a dock request
  *
- * The background pixmap set on the icon window is only meaningful
- * once the tray host has actually reparented it, since until then
- * @c ParentRelative still refers to whatever briefly parented the
- * window beforehand.  A full redraw is queued once
- * @c XEMBED_EMBEDDED_NOTIFY arrives, so the icon picks up the host's
- * real background instead of leaving stale content on screen.
+ * Only once @c XEMBED_EMBEDDED_NOTIFY arrives is the icon window
+ * actually reparented into the tray host, so this is also the
+ * earliest point the background can be captured; a full redraw is
+ * queued right after, so the icon picks up the host's real
+ * background instead of leaving stale content on screen.
  *
  * @param xevent    Native X11 event, cast from @c XEvent
  * @param event     Unused GDK event wrapper
@@ -290,15 +297,16 @@ static GdkFilterReturn s_tray_xembed_client_message_cb(GdkXEvent *xevent,
         GdkEvent *event, gpointer user_data);
 
 /**
- * @brief Force a redraw when the tray host resizes the icon window
+ * @brief React when the tray host resizes the icon window
  *
  * @c gtk_widget_set_size_request only sets a hint: once docked, the
- * tray host is free to assign the window a different size, and
- * nothing else in this file reacts to that on its own.
+ * tray host is free to assign the window a different size, and the
+ * captured background has to be recaptured for that size or the icon
+ * ends up blending against a background of the wrong dimensions.
  *
  * @param widget    Tray icon window receiving the new geometry
- * @param event     Unused configure event
- * @param user_data Unused
+ * @param event     Configure event carrying the new geometry
+ * @param user_data AppState pointer
  *
  * @return @c false, so the default handler still runs
  */
@@ -700,6 +708,52 @@ static void s_tray_popup_menu(AppState *app, gint x, gint y)
 }
 
 
+/* Capture the tray host's current background into the icon */
+static void s_tray_xembed_capture_background(AppState *app)
+{
+    GdkWindow *gdk_window;
+    gint width;
+    gint height;
+
+    gdk_window = gtk_widget_get_window(app->xembed_window);
+    if (gdk_window == NULL) {
+        return;
+    }
+
+    width = gdk_window_get_width(gdk_window);
+    height = gdk_window_get_height(gdk_window);
+    if (width <= 0 || height <= 0) {
+        return;
+    }
+
+    if (app->xembed_background != NULL) {
+        g_object_unref(app->xembed_background);
+    }
+
+    app->xembed_background = gdk_pixbuf_get_from_window(gdk_window,
+                                                         0, 0,
+                                                         width, height);
+}
+
+
+/* Paint the captured background behind the XEmbed tray icon */
+static gboolean s_tray_xembed_draw_cb(GtkWidget *widget, cairo_t *cr,
+        gpointer user_data)
+{
+    AppState *app;
+
+    (void) widget;
+
+    app = user_data;
+    if (app->xembed_background != NULL) {
+        gdk_cairo_set_source_pixbuf(cr, app->xembed_background, 0, 0);
+        cairo_paint(cr);
+    }
+
+    return FALSE;
+}
+
+
 #ifdef GDK_WINDOWING_X11
 /* Publish the '_XEMBED_INFO' property on the icon window */
 static void s_tray_xembed_set_info(Display *display, Window window)
@@ -741,6 +795,7 @@ static GdkFilterReturn s_tray_xembed_client_message_cb(GdkXEvent *xevent,
 
     if (native_event->xclient.message_type == s_xembed_message_atom &&
             native_event->xclient.data.l[1] == XEMBED_EMBEDDED_NOTIFY) {
+        s_tray_xembed_capture_background(app);
         gtk_widget_queue_draw(app->xembed_window);
     }
 
@@ -754,14 +809,18 @@ static GdkFilterReturn s_tray_xembed_client_message_cb(GdkXEvent *xevent,
 }
 
 
-/* Force a redraw when the tray host resizes the icon window */
+/* React when the tray host resizes the icon window */
 static gboolean s_tray_xembed_configure_cb(GtkWidget *widget,
         GdkEventConfigure *event, gpointer user_data)
 {
-    (void) event;
-    (void) user_data;
+    AppState *app;
 
-    gtk_widget_queue_draw(widget);
+    (void) widget;
+    (void) event;
+
+    app = user_data;
+    s_tray_xembed_capture_background(app);
+    gtk_widget_queue_draw(app->xembed_window);
 
     return FALSE;
 }
@@ -809,31 +868,24 @@ static gboolean s_tray_xembed_init(AppState *app)
 
     app->xembed_window = gtk_window_new(GTK_WINDOW_POPUP);
 
-    /* All three are needed together, and are what GTK's own tray icon
-     * does when the tray offers no visual with an alpha channel.
-     * 'app_paintable' stops GTK painting the theme background over
-     * everything; turning double buffering off stops GDK redirecting
-     * the drawing to a temporary pixmap, which would leave the
-     * server's parent-relative background out of the picture
-     * entirely; and the draw handler is what pulls that background
-     * in. */
+    /* Stops GTK painting its normal themed background behind the
+     * icon; 's_tray_xembed_draw_cb' paints the tray's own captured
+     * background in its place before the icon itself draws on top. */
     gtk_widget_set_app_paintable(app->xembed_window, TRUE);
-    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-    gtk_widget_set_double_buffered(app->xembed_window, FALSE);
-    G_GNUC_END_IGNORE_DEPRECATIONS
     g_signal_connect(app->xembed_window,
                      "draw",
                      G_CALLBACK(s_tray_xembed_draw_cb),
-                     NULL);
+                     app);
     g_signal_connect(app->xembed_window,
                      "configure-event",
                      G_CALLBACK(s_tray_xembed_configure_cb),
-                     NULL);
+                     app);
 
     icon_name = s_tray_icon_name(app);
     gtk_window_set_title(GTK_WINDOW(app->xembed_window), APP_TITLE);
     gtk_window_set_icon_name(GTK_WINDOW(app->xembed_window), icon_name);
-    gtk_widget_set_size_request(app->xembed_window, 24, 24);
+    gtk_widget_set_size_request(app->xembed_window,
+                                TRAY_XEMBED_ICON_SIZE, TRAY_XEMBED_ICON_SIZE);
     gtk_widget_set_tooltip_text(app->xembed_window, app_state_get_tooltip(app));
 
     app->xembed_event_box = gtk_event_box_new();
@@ -880,11 +932,10 @@ static gboolean s_tray_xembed_init(AppState *app)
     s_tray_xembed_set_info(display, icon_window);
     gdk_window_add_filter(gdk_window, s_tray_xembed_client_message_cb, app);
 
-    /* The background the draw handler above clears to.  Set once the
-     * window exists and before it is docked, since reparenting a
-     * window that already has a parent-relative background into a
-     * parent of the same depth is what the tray specification expects
-     * of an icon when no alpha visual is on offer. */
+    /* What 's_tray_xembed_capture_background' reads back right after,
+     * once the window has actually been reparented into the tray and
+     * this holds the host's real background instead of whatever
+     * briefly parented the window before that. */
     XSetWindowBackgroundPixmap(display, icon_window, ParentRelative);
 
     gtk_widget_show_all(app->xembed_window);
@@ -936,6 +987,11 @@ static void s_tray_xembed_shutdown(AppState *app)
         app->xembed_image = NULL;
     }
 
+    if (app->xembed_background != NULL) {
+        g_object_unref(app->xembed_background);
+        app->xembed_background = NULL;
+    }
+
     app->xembed_ready = FALSE;
 }
 
@@ -958,43 +1014,6 @@ static void s_tray_xembed_update(AppState *app)
                                      s_tray_icon_name(app),
                                      GTK_ICON_SIZE_LARGE_TOOLBAR);
     }
-}
-
-
-/* Clear the tray icon window to its parent-relative background */
-static gboolean s_tray_xembed_draw_cb(GtkWidget *widget, cairo_t *cr,
-        gpointer user_data)
-{
-#ifdef GDK_WINDOWING_X11
-    GdkWindow *gdk_window;
-    GdkRectangle clip;
-    cairo_surface_t *target;
-
-    (void) user_data;
-
-    gdk_window = gtk_widget_get_window(widget);
-    if (gdk_window == NULL ||
-            gdk_cairo_get_clip_rectangle(cr, &clip) == FALSE) {
-        return FALSE;
-    }
-
-    target = cairo_get_target(cr);
-    cairo_surface_flush(target);
-    XClearArea(GDK_WINDOW_XDISPLAY(gdk_window),
-               GDK_WINDOW_XID(gdk_window),
-               clip.x, clip.y,
-               (unsigned int) clip.width, (unsigned int) clip.height,
-               False);
-    cairo_surface_mark_dirty_rectangle(target,
-                                       clip.x, clip.y,
-                                       clip.width, clip.height);
-#else
-    (void) widget;
-    (void) cr;
-    (void) user_data;
-#endif
-
-    return FALSE;
 }
 
 

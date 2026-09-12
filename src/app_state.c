@@ -36,6 +36,7 @@ void app_state_init(AppState *app, GtkApplication *gtk_app)
     app->xembed_window = NULL;
     app->xembed_event_box = NULL;
     app->xembed_image = NULL;
+    app->xembed_background = NULL;
     app->active_preset = presets_get_default();
     app->remaining_seconds = 0;
     app->total_seconds = 0;

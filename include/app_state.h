@@ -55,6 +55,7 @@ struct app_state {
     GtkWidget *xembed_window;           /**< @a XEmbed fallback tray window */
     GtkWidget *xembed_event_box;        /**< Event box receiving tray events */
     GtkWidget *xembed_image;            /**< Image for @a XEmbed tray icon */
+    GdkPixbuf *xembed_background;       /**< Captured tray background */
     const TimerPreset *active_preset;   /**< Currently selected timer preset */
     guint remaining_seconds;            /**< Remaining timer in seconds */
     guint total_seconds;                /**< Original timer in seconds */
