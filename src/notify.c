@@ -27,13 +27,14 @@ void notify_timer_finished(AppState *app, const char *preset_name)
 {
     GVariantBuilder actions_builder;
     GVariantBuilder hints_builder;
-    GError *error;
+    GDBusConnection *bus;
     gchar *body;
 
-    error = NULL;
     body = g_strdup_printf("%s is ready.", preset_name);
 
-    if (app->bus == NULL) {
+    bus = g_application_get_dbus_connection(
+            G_APPLICATION(app->gtk_app));
+    if (bus == NULL) {
         g_free(body);
         return;
     }
@@ -41,7 +42,7 @@ void notify_timer_finished(AppState *app, const char *preset_name)
     g_variant_builder_init(&actions_builder, G_VARIANT_TYPE("as"));
     g_variant_builder_init(&hints_builder, G_VARIANT_TYPE("a{sv}"));
 
-    g_dbus_connection_call(app->bus,
+    g_dbus_connection_call(bus,
                            "org.freedesktop.Notifications",
                            "/org/freedesktop/Notifications",
                            "org.freedesktop.Notifications",
@@ -61,10 +62,6 @@ void notify_timer_finished(AppState *app, const char *preset_name)
                            NULL,
                            NULL,
                            NULL);
-
-    if (error != NULL) {
-        g_error_free(error);
-    }
 
     g_free(body);
 }

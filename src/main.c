@@ -4,16 +4,17 @@
  * @brief Application entry point and top-level GTK callbacks
  *
  * A lightweight GTK3 system-tray tea and coffee timer written in
- * modular C99 and  inspired by KDE’s classic `kteatime`, a tool I used
- * in the early 2000s before switching to Openbox and a GTK3-only
- * environment.
+ * modular C99 and  inspired by KDE’s classic `kteatime`, a tool
+ * I used in the early 2000s before switching to Openbox and
+ * a GTK3-only environment.
  *
  * @author J. A. Corbal <jacorbal@gmail.com>
- * @version 1.0.3
+ * @version 1.0.4
  * @date Creation date: Fri May  8 18:52 UTC 2026
  * @date Version 1.0.1: Sat May  9 13:21 UTC 2026
  * @date Version 1.0.2: Mon May 11 00:22 UTC 2026
  * @date Version 1.0.3: Tue Sep  2 14:29 UTC 2026
+ * @date Version 1.0.4: Sat Nov  7 20:57 UTC 2026
  * @copyright Copyright (c) 2026, J. A. Corbal.
  *            The MIT License <https://mit-license.org/>
  */
@@ -31,9 +32,7 @@
 /* Project includes */
 #include <app_state.h>
 #include <defs.h>
-#include <timer.h>
 #include <tray.h>
-#include <window.h>
 
 
 /**
@@ -95,24 +94,19 @@ static void s_app_activate_cb(GtkApplication *gtk_app,
                               gpointer user_data)
 {
     AppState *app;
-    gboolean tray_ready;
 
     (void) gtk_app;
 
     app = user_data;
 
     /* A second invocation is routed here by GApplication, and it must
-     * only raise the window of the instance that is already running */
+     * leave the instance that is already running untouched */
     if (app->is_activated == TRUE) {
-        window_show(app);
         return;
     }
 
     app->is_activated = TRUE;
-    tray_ready = tray_init(app);
-    if (tray_ready == FALSE) {
-        window_show(app);
-    }
+    tray_init(app);
 }
 
 
@@ -134,6 +128,5 @@ static void s_state_changed_cb(AppState *app, void *user_data)
 {
     (void) user_data;
 
-    window_update(app);
     tray_update(app);
 }

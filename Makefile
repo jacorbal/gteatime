@@ -42,7 +42,7 @@ LDFLAGS = -s
 
 # Needed flags
 PKG_CONFIG = pkgconf
-PKGS = gtk+-3.0 gio-2.0 glib-2.0 gobject-2.0 x11
+PKGS = gtk+-3.0 gio-2.0 glib-2.0 gobject-2.0 xapp
 PKG_CFLAGS = `$(PKG_CONFIG) --cflags $(PKGS)`
 PKG_LIBS = `$(PKG_CONFIG) --libs $(PKGS)`
 
@@ -53,8 +53,7 @@ SRCS = \
 	$(SRC_D)/notify.c \
 	$(SRC_D)/presets.c \
 	$(SRC_D)/timer.c \
-	$(SRC_D)/tray.c \
-	$(SRC_D)/window.c
+	$(SRC_D)/tray.c
 OBJS = $(SRCS:$(SRC_D)/%.c=$(OBJ_D)/%.o)
 
 

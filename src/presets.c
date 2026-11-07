@@ -79,25 +79,3 @@ const TimerPreset *presets_get_by_index(guint index)
     return &timer_presets[index];
 }
 
-
-/* Find the zero-based index of a preset pointer*/ 
-gboolean presets_get_index(const TimerPreset *preset, guint *index)
-{
-    gsize count;
-    gsize current;
-
-    if (preset == NULL || index == NULL) {
-        return FALSE;
-    }
-
-    count = 0;
-    presets_get_all(&count);
-    for (current = 0; current < count; current++) {
-        if (&timer_presets[current] == preset) {
-            *index = (guint) current;
-            return TRUE;
-        }
-    }
-
-    return FALSE;
-}

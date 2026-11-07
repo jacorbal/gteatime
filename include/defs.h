@@ -1,7 +1,7 @@
 /**
  * @file defs.h
  *
- * @brief Central project constants for ID, icons, and tray protocols
+ * @brief Central project constants for ID and icons
  */
 /*
  * Copyright (c) 2026, J. A. Corbal.
@@ -24,31 +24,6 @@
  * @brief User-visible application title
  */
 #define APP_TITLE "Tea & Coffee Timer"
-
-/**
- * @brief Application version string
- */
-#define APP_VERSION "1.0.3"
-
-/**
- * @brief Application author
- */
-#define APP_AUTHOR "J. A. Corbal"
-
-/**
- * @brief Application author email
- */
-#define APP_AUTHOR_EMAIL "jacorbal@gmail.com"
-
-/**
- * @brief Application description
- */
-#define APP_DESCRIPTION "A lightweight GTK 3 system-tray tea & coffee timer"
-
-/**
- * @brief Text shown when no timer is running
- */
-#define APP_TIMER_OFF_TEXT "Timer is off"
 
 /**
  * @brief Desktop/icon identifier without file extension
@@ -75,96 +50,6 @@
  *        unavailable
  */
 #define TRAY_ICON_RUNNING_FALLBACK_NAME "preferences-system-time"
-
-/**
- * @brief D-Bus object path exported for StatusNotifierItem
- */
-#define SNI_OBJECT_PATH "/StatusNotifierItem"
-
-/**
- * @brief Well-known D-Bus name for the StatusNotifier watcher
- */
-#define SNI_WATCHER_NAME "org.kde.StatusNotifierWatcher"
-
-/**
- * @brief D-Bus object path for the StatusNotifier watcher
- */
-#define SNI_WATCHER_PATH "/StatusNotifierWatcher"
-
-/**
- * @brief D-Bus interface name for the StatusNotifier watcher
- */
-#define SNI_WATCHER_INTERFACE "org.kde.StatusNotifierWatcher"
-
-/**
- * @brief D-Bus interface name for the exported StatusNotifier item
- */
-#define SNI_INTERFACE "org.kde.StatusNotifierItem"
-
-/**
- * @brief Standard D-Bus properties interface name
- */
-#define DBUS_PROPERTIES_INTERFACE "org.freedesktop.DBus.Properties"
-
-/**
- * @brief StatusNotifier category used for an application status icon
- */
-#define SNI_CATEGORY_APPLICATION_STATUS "ApplicationStatus"
-
-/**
- * @brief StatusNotifier status that keeps the item visible in panels
- */
-#define SNI_STATUS_ACTIVE "Active"
-
-/**
- * @brief StatusNotifier passive status, kept for protocol completeness
- */
-#define SNI_STATUS_PASSIVE "Passive"
-
-/**
- * @brief XEmbed selection name format for the current X11 screen number
- */
-#define XEMBED_SYSTEM_TRAY_SELECTION_FORMAT "_NET_SYSTEM_TRAY_S%d"
-
-/**
- * @brief XEmbed client message atom used to request docking
- */
-#define XEMBED_SYSTEM_TRAY_OPCODE "_NET_SYSTEM_TRAY_OPCODE"
-
-/**
- * @brief XEmbed opcode used to dock a tray icon window
- */
-#define XEMBED_SYSTEM_TRAY_REQUEST_DOCK 0
-
-/**
- * @brief Atom name for the XEmbed protocol client message
- */
-#define XEMBED_MESSAGE_ATOM "_XEMBED"
-
-/**
- * @brief XEmbed opcode sent by the manager once docking succeeds
- */
-#define XEMBED_EMBEDDED_NOTIFY 0
-
-/**
- * @brief Atom name for the property advertising XEmbed support
- */
-#define XEMBED_INFO_ATOM "_XEMBED_INFO"
-
-/**
- * @brief XEmbed protocol version implemented by this client
- */
-#define XEMBED_INFO_PROTOCOL_VERSION 0
-
-/**
- * @brief XEmbed info flag indicating the window is mapped
- */
-#define XEMBED_INFO_FLAG_MAPPED 1
-
-/**
- * @brief Side length, in pixels, of the XEmbed fallback tray icon
- */
-#define TRAY_XEMBED_ICON_SIZE 24
 
 
 #endif  /* ! DEFS_H */

@@ -1,7 +1,7 @@
 /**
  * @file app_state.h
  *
- * @brief Shared app. state used by the timer, tray, and window modules
+ * @brief Shared app. state used by the timer and tray modules
  */
 /*
  * Copyright (c) 2026, J. A. Corbal.
@@ -44,29 +44,10 @@ typedef void (*AppStateCallback) (AppState *app, void *user_data);
  */
 struct app_state {
     GtkApplication *gtk_app;            /**< GTK application instance */
-    GtkWidget *window;                  /**< Main configuration window */
-    GtkWidget *status_label;            /**< Label showing timer status */
-    GtkWidget *desc_label;              /**< Label showing tea description */
-    GtkWidget *preset_combo;            /**< Combo box with timer presets */
-    GtkWidget *start_button;            /**< Button to start/reset timer */
-    GtkWidget *stop_button;             /**< Button to stop the timer */
-    GtkWidget *about_button;            /**< Button to show information */
-    GtkWidget *tray_menu;               /**< Popup menu from the tray icon */
-    GtkWidget *xembed_window;           /**< @a XEmbed fallback tray window */
-    GtkWidget *xembed_event_box;        /**< Event box receiving tray events */
-    GtkWidget *xembed_image;            /**< Image for @a XEmbed tray icon */
-    GdkPixbuf *xembed_background;       /**< Captured tray background */
     const TimerPreset *active_preset;   /**< Currently selected timer preset */
     guint remaining_seconds;            /**< Remaining timer in seconds */
-    guint total_seconds;                /**< Original timer in seconds */
     guint timer_source_id;              /**< GLib timeout source ID */
     gboolean is_running;                /**< Timer is active */
-    GDBusConnection *bus;               /**< Bus for tray and notifications */
-    guint sni_registration_id;          /**< GDBus exported object ID */
-    guint sni_bus_name_id;              /**< Owned SNI bus name ID */
-    gchar *sni_bus_name;                /**< SNI bus name owned by process */
-    gchar *tooltip_text;                /**< Current tray tooltip text */
-    gboolean xembed_ready;              /**< @a XEmbed fallback is docked */
     gboolean is_activated;              /**< App. was already activated */
     AppStateCallback state_changed_cb;  /**< Callback for state changes */
     void *state_changed_data;           /**< User data passed state callback */
@@ -104,23 +85,6 @@ void app_state_set_callback(AppState *app,
  * @param app Shared application state
  */
 void app_state_emit_changed(AppState *app);
-
-/**
- * @brief Replace the tray tooltip text
- *
- * @param app  Shared application state
- * @param text New tooltip text
- */
-void app_state_set_tooltip(AppState *app, const char *text);
-
-/**
- * @brief Return the current tray tooltip text
- *
- * @param app Shared application state
- *
- * @return Current tooltip text
- */
-const char *app_state_get_tooltip(AppState *app);
 
 
 #endif  /* ! APP_STATE_H */

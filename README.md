@@ -2,33 +2,32 @@
 ==================================================================
 
 `gteatime` (*tea & coffee timer*) is a GTK 3 systray timer for tea and
-coffee presets written in C.  It avoids `GtkStatusIcon` and
-`libappindicator`.  The tray integration first tries
-`StatusNotifierItem` over D-Bus using GIO, then falls back to the
-`XEmbed` system tray protocol on X11.
+coffee presets written in C.  The tray icon is an `XAppStatusIcon`
+from `libxapp`, which works with XApp status applets and with any
+`XEmbed` system tray.
 
-   - **Last update:** Tue Sep  2 14:29 UTC 2026
-   - **Current version:** 1.0.3
+   - **Last update:** Sat Nov  7 20:57:46 UTC 2026
+   - **Current version:** 1.0.4
 
 It was inspired by KDE’s classic `kteatime`, which I used in the early
 2000s before moving from that desktop environment to Openbox and
 a GTK3-only setup.
 
-- Timer off and timer on (with tooltip) icons on systray:
+- Timer off and timer on icons on systray:
 
 ![Systray timer off](doc/img/1.png)
-![Systray timer on with tooltip](doc/img/2.png)
+![Systray timer on](doc/img/2.png)
 <!-- ![Systray drop-down selector](doc/img/3.png) -->
 
 ## Dependencies
 
   - `libgtk-3-dev`
-  - `libx11-dev`
+  - `libxapp-dev`
   - `pkgconf` (for `Makefile`)
 
 On Debian-like systems:
 
-    sudo apt install pkgconf libgtk-3-dev libx11-dev
+    sudo apt install pkgconf libgtk-3-dev libxapp-dev
 
 ## Build
 
@@ -71,30 +70,24 @@ has to be specified as well, and in the same way, when invoking
 
 ## Desktop support
 
-This program requires either a desktop component that implements the
-`StatusNotifierItem` watcher protocol, or an X11 tray manager that owns
-`_NET_SYSTEM_TRAY_Sn` (where *n* is the X11 screen number).  KDE
-Plasma usually supports `StatusNotifierItem` directly.  XFCE and other
-X11 panels usually support the fallback tray.  GNOME on Wayland normally
-requires a tray or `StatusNotifierItem` extension.
-
-No `AppIndicator` API was used.
+This program requires either an XApp status applet (Cinnamon, MATE,
+Xfce) or an X11 tray manager that owns `_NET_SYSTEM_TRAY_Sn` (where *n*
+is the X11 screen number), such as the system tray of most X11 panels.
+KDE Plasma shows `XEmbed` icons through its own proxy.  GNOME on
+Wayland normally requires a tray extension.
 
 ## Behavior
 
-- Left click on the tray item opens the configuration window.
-- Right click on the tray item opens the preset menu.
-- Closing the window hides it and leaves the timer in the systray.
-- The tray tooltip shows remaining time, or an idle message when no
-  timer is running.
+- Left and right click on the tray item open the preset menu.
+- The tray icon shows whether a timer is running or idle.
 - A D-Bus desktop notification is shown when the timer completes.
 
 ## Style notes
 
 The code is written as C99-compliant.
 
-Most editable program constants, including icon names, user-visible
-identity strings, and tray protocol names, are in `include/defs.h`.
+Most editable program constants, including icon names and user-visible
+identity strings, are in `include/defs.h`.
 
 ## Author
 

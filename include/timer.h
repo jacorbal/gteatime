@@ -35,23 +35,5 @@ void timer_start(AppState *app, const TimerPreset *preset);
  */
 void timer_stop(AppState *app);
 
-/**
- * @brief Update the tooltip text from the current timer state
- *
- * @param app Shared application state
- */
-void timer_update_tooltip(AppState *app);
-
-/**
- * @brief Format a remaining duration for display
- *
- * @param seconds Remaining duration in seconds
- *
- * @return Newly allocated display string
- *
- * @note It must be freed with @a g_free()
- */
-char *timer_format_remaining(guint seconds);
-
 
 #endif  /* ! TIMER_H */

@@ -14,9 +14,6 @@
 /* GTK includes */
 #include <gtk/gtk.h>
 
-/* Project includes */
-#include <defs.h>
-
 /* Local includes */
 #include <app_state.h>
 
@@ -25,29 +22,10 @@
 void app_state_init(AppState *app, GtkApplication *gtk_app)
 {
     app->gtk_app = gtk_app;
-    app->window = NULL;
-    app->status_label = NULL;
-    app->desc_label = NULL;
-    app->preset_combo = NULL;
-    app->start_button = NULL;
-    app->stop_button = NULL;
-    app->about_button = NULL;
-    app->tray_menu = NULL;
-    app->xembed_window = NULL;
-    app->xembed_event_box = NULL;
-    app->xembed_image = NULL;
-    app->xembed_background = NULL;
     app->active_preset = presets_get_default();
     app->remaining_seconds = 0;
-    app->total_seconds = 0;
     app->timer_source_id = 0;
     app->is_running = FALSE;
-    app->bus = NULL;
-    app->sni_registration_id = 0;
-    app->sni_bus_name_id = 0;
-    app->sni_bus_name = NULL;
-    app->tooltip_text = g_strdup(APP_TIMER_OFF_TEXT);
-    app->xembed_ready = FALSE;
     app->is_activated = FALSE;
     app->state_changed_cb = NULL;
     app->state_changed_data = NULL;
@@ -61,16 +39,6 @@ app_state_clear(AppState *app)
     if (app->timer_source_id != 0) {
         g_source_remove(app->timer_source_id);
         app->timer_source_id = 0;
-    }
-
-    if (app->tooltip_text != NULL) {
-        g_free(app->tooltip_text);
-        app->tooltip_text = NULL;
-    }
-
-    if (app->sni_bus_name != NULL) {
-        g_free(app->sni_bus_name);
-        app->sni_bus_name = NULL;
     }
 }
 
@@ -92,21 +60,3 @@ void app_state_emit_changed(AppState *app)
     }
 }
 
-
-/* Replace the tray tooltip text */
-void app_state_set_tooltip(AppState *app, const char *text)
-{
-    g_free(app->tooltip_text);
-    app->tooltip_text = g_strdup(text);
-}
-
-
-/* Return the current tray tooltip text */
-const char *app_state_get_tooltip(AppState *app)
-{
-    if (app->tooltip_text == NULL) {
-        return APP_TIMER_OFF_TEXT;
-    }
-
-    return app->tooltip_text;
-}

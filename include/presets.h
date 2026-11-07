@@ -54,15 +54,5 @@ const TimerPreset *presets_get_default(void);
  */
 const TimerPreset *presets_get_by_index(guint index);
 
-/**
- * @brief Find the zero-based index of a preset pointer
- *
- * @param preset Preset pointer to find
- * @param index  Output receiving the index
- *
- * @return @c true when the preset pointer belongs to the preset table
- */
-gboolean presets_get_index(const TimerPreset *preset, guint *index);
-
 
 #endif  /* ! PRESETS_H */

@@ -23,11 +23,8 @@
  * @brief Initialize tray integration
  *
  * @param app Shared application state
- *
- * @return @c true when either @a StatusNotifierItem or @a XEmbed tray
- *         setup succeeds
  */
-gboolean tray_init(AppState *app);
+void tray_init(AppState *app);
 
 /**
  * @brief Shut down tray integration and release related resources
@@ -37,7 +34,7 @@ gboolean tray_init(AppState *app);
 void tray_shutdown(AppState *app);
 
 /**
- * @brief Refresh tray properties, tooltip, and icon state
+ * @brief Refresh the tray icon for the current timer state
  *
  * @param app Shared application state
  */
