@@ -1,4 +1,4 @@
-\.TH GTEATIME 1 "September, 2026" "gteatime 1.0.3" "User Commands"
+.TH GTEATIME 1 "November, 2026" "gteatime 1.0.4" "User Commands"
 
 .SH NAME
 gteatime \- lightweight GTK 3 system-tray tea and coffee timer
@@ -8,17 +8,17 @@ gteatime \- lightweight GTK 3 system-tray tea and coffee timer
 .B gteatime
 is a small GTK 3 desktop timer for tea and coffee presets inspired by
 .I kteatime.
-It runs as a tray application and tries to use
-.I StatusNotifierItem
-over D-Bus when available, falling back to the
+It runs as a tray application through the
+.I XAppStatusIcon
+of
+.I libxapp,
+which works with XApp status applets and with the
 .I XEmbed
 system tray protocol on X11.
 .PP
-Left click on the tray icon opens the configuration window.  Right click
-opens the preset menu.  Closing the window hides it while the
-application continues to run in the tray.
+Left and right click on the tray icon open the preset menu.  The tray
+icon shows whether a timer is running or idle.
 .PP
-When a timer is active, the tray tooltip shows the remaining time.
 When the timer finishes, a desktop notification is shown.
 .SH OPTIONS
 This program currently has no command-line options.
@@ -39,9 +39,8 @@ Systray icon when timer is on.
 .I /usr/share/icons/hicolor/scalable/apps/gteatime-off.svg
 Systray icon when timer is off.
 .SH REQUIREMENTS
-The desktop environment must provide either a
-.I StatusNotifierItem
-watcher or an X11 system tray manager.
+The desktop environment must provide either an XApp status applet or
+an X11 system tray manager.
 .SH SEE ALSO
 .BR kteatime (1)
 .SH AUTHOR
